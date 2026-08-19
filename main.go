@@ -8,6 +8,7 @@ import (
 
 	"github.com/Jeroenv81/Gator.git/internal/config"
 	"github.com/Jeroenv81/Gator.git/internal/database"
+
 	_ "github.com/lib/pq"
 )
 
@@ -37,6 +38,7 @@ func main() {
 	cmds := commands{
 		registeredCommands: make(map[string]func(*state, command) error),
 	}
+
 	cmds.register("login", handlerLogin)
 	cmds.register("register", handlerRegister)
 	cmds.register("reset", handlerReset)
@@ -47,6 +49,7 @@ func main() {
 	cmds.register("follow", middlewareLoggedIN(handlerFollow))
 	cmds.register("following", middlewareLoggedIN(handlerListFeedFollows))
 	cmds.register("unfollow", middlewareLoggedIN(handlerUnfollow))
+	cmds.register("browse", middlewareLoggedIN(handlerBrowse))
 
 	if len(os.Args) < 2 {
 		log.Fatal("Usage: cli <command> [args...]")
